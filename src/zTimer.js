@@ -105,7 +105,7 @@ var zTimer = function(option){
 	};
 };
 
-// 倒出模块 
+// 导出模块 
 var root = this;
 if (typeof exports !== 'undefined') {
 	if (typeof module !== 'undefined' && module.exports) {
