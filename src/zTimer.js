@@ -75,7 +75,7 @@ var zTimer = function(option){
 	
 	// 重设选项
 	self.setOptions = function(option){
-		opt = extend({}, defaults, option);
+		opt = extend({}, opt, option);
 	};		
 	
 	// 格式不对返回
