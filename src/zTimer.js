@@ -22,8 +22,9 @@ var zTimer = function(option){
 	// Establish the object that gets returned to break out of a loop iteration.
 	var breaker = {};
 	
-	// Array 原型
-	var ArrayProto = Array.prototype;
+	// Array Object原型
+	var ArrayProto = Array.prototype,
+	    ObjectProto = Object.prototype;
 	
 	// obj.length === +obj.length 等价 typeof obj.length === 'number'
 	var each = function(obj, iterator, context) {
@@ -36,17 +37,17 @@ var zTimer = function(option){
 		  }
 		} else {
 		  for (var key in obj) {
-		    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+		    if (ObjectProto.hasOwnProperty.call(obj, key)) {
 		      if (iterator.call(context, obj[key], key, obj) === breaker) return;
 		    }
 		  }
 		}
 	};
 	
-	//类型判断
+	//类型判断方法
 	each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'], function(name) {
 	    self['is' + name] = function(obj) {
-	      return Object.prototype.toString.call(obj) == '[object ' + name + ']';
+	      return ObjectProto.toString.call(obj) == '[object ' + name + ']';
 	    };
   	});
 	
@@ -81,8 +82,8 @@ var zTimer = function(option){
 	// 格式不对返回
 	if( !mat.test(opt.format) ){ return };
 	
-	// 写入剩余时间
-	var writeTime = function(){
+	// 剩余时间
+	var returnTime = function(){
 		var time = calculation( new Date(), opt.endTime );
 		var theMat = opt.format.replace(matdd,time.d).replace(mathh,time.h).replace(matmm,time.m).replace(matss,time.s);
 		//返回倒计时时间
@@ -90,7 +91,7 @@ var zTimer = function(option){
 	};
 	
 	// 间隔输出时间
-	setInterval( writeTime,1000 );
+	setInterval( returnTime, 1000 );
 	
 	// 计算剩余时间
 	function calculation( start, end ){
