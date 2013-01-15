@@ -37,7 +37,7 @@ var zQuene = (function(undefined) {
 	}
 
 	function process() {
-		var quene = zQuene.shift();
+		var quene = Quene.shift();
 		if (!quene) {
 			isFinish = true;
 			clearTimeout(id);
