@@ -15,6 +15,7 @@ var zTimer = function(option){
 	// 默认参数
 	var defaults = {
 		format : 'hh:mm:ss', // 时间显示格式
+		startTime : null,
 		endTime : '2100/12/31 23:59:59', // 结束时间
 		callback : function(){}
 	};
@@ -76,6 +77,9 @@ var zTimer = function(option){
 	
 	// 重设选项
 	self.setOptions = function(option){
+		if( !option.format || !mat.test(option.format) ){ 
+			option.format = opt.format;
+		};
 		opt = extend({}, opt, option);
 	};		
 	
@@ -84,18 +88,24 @@ var zTimer = function(option){
 	
 	// 剩余时间
 	var returnTime = function(){
-		var time = calculation( new Date(), opt.endTime );
+		var time = calculation( new Date(), opt.endTime, opt.startTime );
 		var theMat = opt.format.replace(matdd,time.d).replace(mathh,time.h).replace(matmm,time.m).replace(matss,time.s);
 		//返回倒计时时间
 		callback( theMat );
 	};
 	
 	// 间隔输出时间
-	setInterval( returnTime, 1000 );
+	self.timerId = setInterval( returnTime, 1000 );
+	
+	//清除定时器
+	self.clearInterval = function(){
+		clearInterval(self.timerId);
+	}
 	
 	// 计算剩余时间
-	function calculation( start, end ){
-		var theTime = Date.parse(end) - Date.parse(start);
+	function calculation( now, end, start ){
+		var theTime = Date.parse(end) - Date.parse(now);
+		
 		return {
 			d : Math.floor( theTime / (1000 * 60 * 60 * 24) ),
 			h : Math.floor( theTime / (1000 * 60 * 60) % 24 ),
