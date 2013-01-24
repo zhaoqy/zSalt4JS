@@ -1,5 +1,5 @@
 /*
- * =======执行缓存队列========
+ * =======函数执行缓存队列========
  * var zQuene = require('./zQuene');
  * zQuene.add(执行方法, 执行上下文, [参数...]);
  * By zhaoqy 2013年1月15日
@@ -12,7 +12,7 @@ var zQuene = (function(undefined) {
 	var Quene = [];
 	
 	//Clear the buffer events within 1000 milliseconds.
-	var processTime = 1000;
+	var processTime = 100;
 	
 	var id = 0;
 	var add = function(fn, context, arrParam) {
@@ -44,12 +44,18 @@ var zQuene = (function(undefined) {
 			return;
 		}
 		quene.fn.apply(quene.context, quene.param);
-		quene = [];
 		start(false);
 	}
 
+    function clear(){
+        clearTimeout(id);
+        Quene = [];
+        isFinish = true;
+    }
+    
 	return {
-		add : add
+		add : add,
+		clear : clear
 	};
 })();
 
