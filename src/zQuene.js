@@ -61,11 +61,11 @@ var zQuene = (function(undefined) {
 		start(false);
 	}
 
-    function clear(){
-        clearTimeout(id);
-        Quene = [];
-        isFinish = true;
-    }
+	function clear(){
+		clearTimeout(id);
+		Quene = [];
+		isFinish = true;
+	}
     
 	return {
 		add : add,
